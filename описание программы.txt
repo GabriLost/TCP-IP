@@ -1,0 +1,61 @@
+Класс DBServer (работа с базой данных) представляет собой класс управления объектами. Содержит следующие поля и методы:
+Класс Server играет роль сервера. Имеет следующие поля и методы:
+•	private Connection con – активное соединений 
+•	private Statement stmt  - ответ на выполненный запрос
+•	private Socket socket - сокет
+•	public DBServer (String DBName, String ip, int port) -  создает соединение с базой, на вход требуется название нуждой базы данных, её адрес и порт по которосу расположена.
+•	Добавление новости
+ public int addNews(int id, String title, String text, String data, int category_id )
+Метод возвращает 0 если новость добавлена, 1 если возникли проблемы с добавлением. На вход принимает id_новости, название новости,  текст, дату, id_категории.
+•	Добавление новой категории
+public int addCategory(int id, String title)
+Метод возвращает 0 если категория добавлена, 1 если возникли проблемы с добавлением. На вход принимает id_категории и название категории.
+•	Удаление новости
+public int deleteNews(int id) 
+Метод возвращает 0 если преподаватель удален, 1 если новость не найдена или возникли проблемы с удалением. На вход принимает id_новости 
+
+•	Удаление категории
+public int deleteCategory(int id) 
+Метод возвращает 0 если категория удалена, 1 если категория не найдена или возникли проблемы с удалением. На вход принимает id_категории .
+•	Изменение новости public
+ int UpdateNews(int id, String title, String text)  по аналогии с добавлением. Метод возвращает 0 если изменение успешно, 1 если возникли проблемы.
+
+•	Поиск новости по id
+public String FindNews(int news_id)
+Метод возвращает строку с новостью, если новость с заданным id найдена или На вход принимает id_новости.
+•	Вывод всех категорий
+public String ShowCategories() 
+      Метод возвращает список категории в строек,. На вход ничего не принимает.
+•	Вывод всех новостей 
+public String ShowNews(int id)
+Метод возвращает список новостей из категории. На вход принимает  id_категории. 
+•	public int CountNews(int id)- возвращает количество новостей в категории или ноль, если нет такой категории, на вход принимает id_категории.
+•	public boolean Disconnect ()  -  закрывает соединение с базой данных, возвращает true, если успешно закрыто и false, если были ошибки.
+
+Класс Client представляет собой клиента, отправляющего запросы на сервер. Имеет следующие поля и методы:
+•	private Socket sock   сокет; 
+•	private DataInputStream   in – входящий поток данных ;
+•	private DataOutputStream out  - исходящий поток данных;
+
+Имеет аналогичные с DBServer  по входным и выходным данным методы:
+•	public int addCategory(int id, String text)
+•	public int deleteCategory(int id)
+•	public int addNews(int id, String title, String text, String data, int id_fk)
+•	public int deleteNews(int id)
+•	public int UpdateNews(int id, String title,String text)
+•	public int CountNews(int id)
+•	public String FindNews(int id)
+•	public String ShowNews(int id)
+•	public String  ShowCategories()
+За исключением 
+•	public void connect(String ip, int port)  - принимает на вход адрес и порт сокета сервера.
+•	
+KIS.Lab3.Server содержит :
+
+•	private ServerSocket server – серверный сокет; 
+•	private Socket sock -  сокет соединения с клиентом; 
+•	private DBServer DB – класс с методами обработки базы данных;
+•	private DataInputStream in  - входящий двоичный поток;
+•	private DataOutputStream out исходящий двоичный поток;
+•	public boolean processQuery() – обработка запросов, производится в цикле, пока не обнаружена ошибка
+•	public void Start(String DBname, String DBip, int DBport,int port) – запуск серверного приложения, создает класс соединения с сервером DBServer, принимает на вход  имя базы данных, адрес базы данных, порт базы данных  и порт сокета по которому приложение будет доступно.
